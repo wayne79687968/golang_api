@@ -3,10 +3,33 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Weather</title>
+    <title>Vue Weather</title>
+    <script src="https://cdn.staticfile.org/vue/2.4.2/vue.min.js"></script>
+    <script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
 </head>
 
 <body>
+    <div id="box">
+        <input type="text" id="country" v-model="country">
+        <input type="button" @click="post()" value="Get Weather Data">
+    </div>
+    <script type="text/javascript">
+        window.onload = function () {
+            var vm = new Vue({
+                el: '#box',
+                data: {},
+                methods: {
+                    post: function () {
+                        this.$http.post(
+                            'http://ip172-18-0-43-cfrbqde3tccg00b7i2u0-9990.direct.labs.play-with-docker.com/post', {country: this.country}, {emulateJSON: true}).then(function (res) {
+                        }, function (res) {
+                            console.log(res.status);
+                        });
+                    }
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>
