@@ -12,16 +12,61 @@
     <div id="box">
         <input type="text" id="country" v-model="country">
         <input type="button" @click="post()" value="Get Weather Data">
+        <table class="table table-bordered" v-show="table">
+                <thead>
+                    <tr>
+                        <td>Weather</td>
+                        <td>Country</td>
+                        <td>Temp</td>
+                        <td>Feels Like</td>
+                        <td>Humidity</td>
+                        <td>Sunrise</td>
+                        <td>Sunset</td>
+                    </tr>
+                </thead>
+            <tbody>
+                <tr>
+                    <td><img v-bind:src="imageSrc"></td>
+                    <td>{{ name }}</td>
+                    <td>{{ temp }}</td>
+                    <td>{{ feels_like }}</td>
+                    <td>{{ humidity }}</td>
+                    <td>{{ sunrise }}</td>
+                    <td>{{ sunset }}</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
     <script type="text/javascript">
         window.onload = function () {
             var vm = new Vue({
                 el: '#box',
-                data: {},
+                data: {
+                    country: '',
+                    table: false,
+                    name: '',
+                    imageSrc: '',
+                    feels_like: '',
+                    humidity: '',
+                    temp: '',
+                    sunrise: '',
+                    sunset: '',
+                },
                 methods: {
                     post: function () {
                         this.$http.post(
                             'http://ip172-18-0-43-cfrbqde3tccg00b7i2u0-9990.direct.labs.play-with-docker.com/post', {country: this.country}, {emulateJSON: true}).then(function (res) {
+                            this.imageSrc = 'http://openweathermap.org/img/wn/' + res.body.weather[0]['icon'] + '@2x.png';
+                            this.name = res.body.name;
+                            this.temp = res.body.main.temp;
+                            this.feels_like = res.body.main.feels_like;
+                            this.humidity = res.body.main.humidity;
+                            sunrise = new Date(res.body.sys.sunrise)
+                            this.sunrise = sunrise.toLocaleTimeString();
+                            sunset = new Date(res.body.sys.sunset)
+                            this.sunset = sunset.toLocaleTimeString();
+                            this.table = true;
                         }, function (res) {
                             console.log(res.status);
                         });
