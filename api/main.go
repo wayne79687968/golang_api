@@ -58,7 +58,8 @@ func main() {
 }
 
 func getWeather(c *gin.Context) {
-	resp, _ := http.Get("https://api.openweathermap.org/data/2.5/weather?q=taipei&appid=8caa11d8c6f2eb7f1508e49175f36f66&units=metric")
+	country := c.DefaultPostForm("country", "taipei")
+	resp, _ := http.Get("https://api.openweathermap.org/data/2.5/weather?q=" + country + "&appid=8caa11d8c6f2eb7f1508e49175f36f66&units=metric")
 	defer resp.Body.Close()
 	data := new(WeatherData)
 	json.NewDecoder(resp.Body).Decode(data)
