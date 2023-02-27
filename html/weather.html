@@ -56,7 +56,7 @@
                 methods: {
                     post: function () {
                         this.$http.post(
-                            'http://ip172-18-0-43-cfrbqde3tccg00b7i2u0-9990.direct.labs.play-with-docker.com/post', {country: this.country}, {emulateJSON: true}).then(function (res) {
+                            'http://ip172-18-0-43-cfrbqde3tccg00b7i2u0-9990.direct.labs.play-with-docker.com/getWeather', {country: this.country}, {emulateJSON: true}).then(function (res) {
                             this.imageSrc = 'http://openweathermap.org/img/wn/' + res.body.weather[0]['icon'] + '@2x.png';
                             this.name = res.body.name;
                             this.temp = res.body.main.temp;
